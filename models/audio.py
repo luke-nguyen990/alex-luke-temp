@@ -20,3 +20,7 @@ FORMAT_BACKENDS = {
     AudioFormat.OPUS: ["ffmpeg"],
     AudioFormat.PCM: ["soundfile"]
 }
+
+class AudioRequest(BaseModel):
+    data: str
+    format: AudioFormat = "wav"

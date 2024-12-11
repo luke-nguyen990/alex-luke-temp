@@ -1,0 +1,66 @@
+# BEGIN GENERAL GGUF METADATA
+id: ichigo-whispervq # Model ID unique between models 
+model: ichigo-whispervq # Model ID which is used for request construct - should be unique between models (author / quantization)
+name: Ichigo WhisperVQ
+version: 1 # metadata.version
+
+# END GENERAL METADATA
+
+# BEGIN INFERENCE PARAMETERS
+# BEGIN REQUIRED
+
+load_model: # method to load python model through API
+  method: post
+  path: /loadmodel
+  transform_request: "" # jinja2 template to transform request
+  transform_response: "" # jinja2 template to transform response
+
+destroy: # method to destroy python process through API
+  method: delete
+  path: /detroy
+
+health_check: # method to destroy python process through API
+  method: get
+  path: /health
+
+inference: # method to do inference python model through API
+  method: post
+  path: /inference
+  transform_request: ""
+  transform_response: ""
+
+extra_endpoints: # untilities methods
+  - method: post
+    path: /tokenize/wav
+    transform_request: ""
+    transform_response: ""
+  - method: get
+    path: /supported_formats
+
+# END REQUIRED
+
+# BEGIN OPTIONAL
+
+# END OPTIONAL
+# END INFERENCE PARAMETERS
+
+# BEGIN SERVER START PARAMETERS
+# BEGIN REQUIRED
+files: /home/thuan/cortexcpp/models/cortex.so/whispervq/fp16
+port: 3348
+log_path: whisper.log
+log_level: INFO
+environment: whispervq # python environment to run model
+script: app.py
+command: ["python"] # this is the base command, cortex will automatic find the correct location of python in env and add params when execute command
+
+engine: python-engine
+# END REQUIRED
+
+# BEGIN OPTIONAL
+extra_params:
+  device_id: "0"
+  package_dir: "" # the package directory to be searched
+
+# END OPTIONAL
+# END SERVER START PARAMETERS
