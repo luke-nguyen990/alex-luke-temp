@@ -6,10 +6,10 @@ from utils.utils import decode_base64_to_audio
 import base64
 
 audio_inference_router = APIRouter(
-    prefix="/audio", tags=["audio"])
+    prefix="/inference", tags=["audio"])
 
 
-@audio_inference_router.post("/inference")
+@audio_inference_router.post("")
 async def tokenize_audio(request: AudioRequest):
     file_obj = decode_base64_to_audio(request.data)
     return get_audio_tokenizer_service().tokenize(file_obj, request.format)
