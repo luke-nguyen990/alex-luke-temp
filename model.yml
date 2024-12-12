@@ -46,7 +46,7 @@ extra_endpoints: # untilities methods
 
 # BEGIN SERVER START PARAMETERS
 # BEGIN REQUIRED
-files: /home/thuan/cortexcpp/models/cortex.so/whispervq/fp16
+model_location: /home/thuan/cortexcpp/models/cortex.so/whispervq/fp16
 port: 3348
 log_path: whisper.log
 log_level: INFO
