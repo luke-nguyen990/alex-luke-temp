@@ -1,6 +1,6 @@
 # BEGIN GENERAL GGUF METADATA
-id: ichigo-whispervq # Model ID unique between models 
-model: ichigo-whispervq # Model ID which is used for request construct - should be unique between models (author / quantization)
+id: whispervq:fp16 # Model ID unique between models 
+model: whispervq:fp16 # Model ID which is used for request construct - should be unique between models (author / quantization)
 name: Ichigo WhisperVQ
 version: 1 # metadata.version
 
