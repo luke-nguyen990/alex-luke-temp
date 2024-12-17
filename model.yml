@@ -9,33 +9,6 @@ version: 1 # metadata.version
 # BEGIN INFERENCE PARAMETERS
 # BEGIN REQUIRED
 
-load_model: # method to load python model through API
-  method: post
-  path: /loadmodel
-  transform_request: "" # jinja2 template to transform request
-  transform_response: "" # jinja2 template to transform response
-
-destroy: # method to destroy python process through API
-  method: delete
-  path: /detroy
-
-health_check: # method to destroy python process through API
-  method: get
-  path: /health
-
-inference: # method to do inference python model through API
-  method: post
-  path: /inference
-  transform_request: ""
-  transform_response: ""
-
-extra_endpoints: # untilities methods
-  - method: post
-    path: /tokenize/wav
-    transform_request: ""
-    transform_response: ""
-  - method: get
-    path: /supported_formats
 
 # END REQUIRED
 
