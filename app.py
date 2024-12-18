@@ -1,18 +1,18 @@
 import argparse, os,sys
 parser = argparse.ArgumentParser(description="WhisperVQ Application")
-parser.add_argument('--log_path', type=str,
+parser.add_argument('--log-path', type=str,
                     default='whisper.log', help='The log file path')
-parser.add_argument('--log_level', type=str, default='INFO',
+parser.add_argument('--log-level', type=str, default='INFO',
                     choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'TRACE'], help='The log level')
 parser.add_argument('--port', type=int, default=3348,
                     help='The port to run the WhisperVQ app on')
-parser.add_argument('--device_id', type=str, default="0",
+parser.add_argument('--device-id', type=str, default="0",
                     help='The port to run the WhisperVQ app on')
-parser.add_argument('--package_dir', type=str, default="",
+parser.add_argument('--package-dir', type=str, default="",
                     help='The package-dir to be extended to sys.path')
 args = parser.parse_args()
 sys.path.insert(0, args.package_dir)
-os.environ["CUDA_VISIBLE_DEVICES"] =args.device_id # Use the first Nvidia GPU
+os.environ["CUDA_VISIBLE_DEVICES"] = args.device_id # Use the first Nvidia GPU
 
 import logging
 import uvicorn
@@ -34,7 +34,6 @@ logger = logging.getLogger(__name__)
 
 from services.AudioTokenizerService import get_audio_tokenizer_service
 from routes.AudioTokenizerRoute import audio_tokenizer_router
-from routes.InferenceRoute import audio_inference_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -48,7 +47,6 @@ app = FastAPI(lifespan=lifespan)
 
 # include the routes
 app.include_router(audio_tokenizer_router)
-app.include_router(audio_inference_router)
 
 def self_terminate():
     time.sleep(1)
@@ -60,10 +58,6 @@ def self_terminate():
 async def destroy():
     threading.Thread(target=self_terminate, daemon=True).start()
     return {"success": True}
-
-@app.get("/health")
-async def health():
-    return {"status": "OK"}
 
 if __name__ == "__main__":
     import uvicorn
