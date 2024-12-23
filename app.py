@@ -1,4 +1,16 @@
-import argparse, os,sys
+from routes.AudioTokenizerRoute import audio_tokenizer_router
+from services.AudioTokenizerService import get_audio_tokenizer_service
+import threading
+import psutil
+import time
+import os
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
+import uvicorn
+import logging
+import argparse
+import os
+import sys
 parser = argparse.ArgumentParser(description="WhisperVQ Application")
 parser.add_argument('--log-path', type=str,
                     default='whisper.log', help='The log file path')
@@ -12,16 +24,9 @@ parser.add_argument('--package-dir', type=str, default="",
                     help='The package-dir to be extended to sys.path')
 args = parser.parse_args()
 sys.path.insert(0, args.package_dir)
-os.environ["CUDA_VISIBLE_DEVICES"] = args.device_id # Use the first Nvidia GPU
+os.environ["CUDA_VISIBLE_DEVICES"] = args.device_id  # Use the first Nvidia GPU
 
-import logging
-import uvicorn
-from fastapi import FastAPI
-from contextlib import asynccontextmanager
-import os
-import time
-import psutil
-import threading
+
 logging.basicConfig(level=args.log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     handlers=[
                         logging.FileHandler(args.log_path),
@@ -32,12 +37,10 @@ logger = logging.getLogger(__name__)
 
 # after set up logger we can import and use services
 
-from services.AudioTokenizerService import get_audio_tokenizer_service
-from routes.AudioTokenizerRoute import audio_tokenizer_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-   
+
     # on startup
     get_audio_tokenizer_service()
     yield
@@ -47,6 +50,7 @@ app = FastAPI(lifespan=lifespan)
 
 # include the routes
 app.include_router(audio_tokenizer_router)
+
 
 def self_terminate():
     time.sleep(1)
